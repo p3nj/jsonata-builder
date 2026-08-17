@@ -1,0 +1,207 @@
+{
+  "root": {
+    "key": "",
+    "type": "array",
+    "source": "result.orders",
+    "item": {
+      "key": "",
+      "type": "object",
+      "children": [
+        {
+          "key": "Reference",
+          "type": "leaf",
+          "source": "header.orderNo"
+        },
+        {
+          "key": "Customer",
+          "type": "leaf",
+          "sources": "header.customer, header.channel",
+          "separator": " via "
+        },
+        {
+          "key": "Title",
+          "type": "leaf",
+          "source": "header.reference",
+          "fallbackSource": "header.orderNo"
+        },
+        {
+          "key": "PlacedOn",
+          "type": "leaf",
+          "source": "header.placedOn",
+          "transform": "date"
+        },
+        {
+          "key": "Channel",
+          "type": "leaf",
+          "source": "header.channel",
+          "transform": "uppercase"
+        },
+        {
+          "key": "Total",
+          "type": "leaf",
+          "source": "header.total",
+          "transform": "number"
+        },
+        {
+          "key": "Currency",
+          "type": "leaf",
+          "source": "header.currency"
+        },
+        {
+          "key": "Warehouse",
+          "type": "leaf",
+          "source": "header.doesNotExist"
+        },
+        {
+          "key": "Content",
+          "type": "object",
+          "children": [
+            {
+              "key": "Sections",
+              "type": "list",
+              "children": [
+                {
+                  "key": "OrderLines",
+                  "type": "array",
+                  "source": "lines",
+                  "item": {
+                    "key": "",
+                    "type": "object",
+                    "children": [
+                      {
+                        "key": "Group",
+                        "type": "leaf",
+                        "constant": "Lines"
+                      },
+                      {
+                        "key": "Row",
+                        "type": "leaf",
+                        "constant": "Line",
+                        "appendIndex": true,
+                        "indexSeparator": " "
+                      },
+                      {
+                        "key": "Code",
+                        "type": "leaf",
+                        "source": "sku"
+                      },
+                      {
+                        "key": "Label",
+                        "type": "leaf",
+                        "source": "name",
+                        "prefix": "Item: "
+                      },
+                      {
+                        "key": "Quantity",
+                        "type": "leaf",
+                        "source": "qty",
+                        "transform": "number"
+                      },
+                      {
+                        "key": "Price",
+                        "type": "leaf",
+                        "source": "unitPrice",
+                        "transform": "number"
+                      },
+                      {
+                        "key": "OrderRef",
+                        "type": "leaf",
+                        "source": "header.orderNo",
+                        "scope": "root"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "key": "Parcels",
+                  "type": "array",
+                  "source": "shipments",
+                  "item": {
+                    "key": "",
+                    "type": "object",
+                    "children": [
+                      {
+                        "key": "Group",
+                        "type": "leaf",
+                        "constant": "Parcels"
+                      },
+                      {
+                        "key": "Carrier",
+                        "type": "leaf",
+                        "source": "carrier"
+                      },
+                      {
+                        "key": "Tracking",
+                        "type": "leaf",
+                        "source": "tracking",
+                        "suffix": " (parcel)"
+                      },
+                      {
+                        "key": "Items",
+                        "type": "array",
+                        "source": "parcels",
+                        "item": {
+                          "key": "",
+                          "type": "object",
+                          "children": [
+                            {
+                              "key": "Label",
+                              "type": "leaf",
+                              "source": "label"
+                            },
+                            {
+                              "key": "Weight",
+                              "type": "leaf",
+                              "source": "weight",
+                              "transform": "number"
+                            },
+                            {
+                              "key": "Carrier",
+                              "type": "leaf",
+                              "source": "carrier",
+                              "scope": "parent"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "key": "PublicNotes",
+                  "type": "array",
+                  "source": "notes",
+                  "item": {
+                    "key": "",
+                    "type": "object",
+                    "children": [
+                      {
+                        "key": "Group",
+                        "type": "leaf",
+                        "constant": "Notes"
+                      },
+                      {
+                        "key": "Author",
+                        "type": "leaf",
+                        "source": "author",
+                        "transform": "uppercase"
+                      },
+                      {
+                        "key": "Text",
+                        "type": "leaf",
+                        "source": "text"
+                      }
+                    ]
+                  },
+                  "filterPath": "visibility",
+                  "filterOperator": "equals",
+                  "filterValue": "public"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

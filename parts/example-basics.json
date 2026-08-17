@@ -1,0 +1,67 @@
+{
+  "root": {
+    "key": "",
+    "type": "array",
+    "source": "result.orders",
+    "item": {
+      "key": "",
+      "type": "object",
+      "children": [
+        {
+          "key": "Reference",
+          "type": "leaf",
+          "source": "header.orderNo"
+        },
+        {
+          "key": "Customer",
+          "type": "leaf",
+          "source": "header.customer"
+        },
+        {
+          "key": "LineCodes",
+          "type": "array",
+          "source": "lines",
+          "item": {
+            "key": "",
+            "type": "leaf",
+            "source": "sku"
+          }
+        },
+        {
+          "key": "Lines",
+          "type": "array",
+          "source": "lines",
+          "item": {
+            "key": "",
+            "type": "object",
+            "children": [
+              {
+                "key": "Position",
+                "type": "leaf",
+                "constant": "Line",
+                "appendIndex": true,
+                "indexSeparator": " "
+              },
+              {
+                "key": "Code",
+                "type": "leaf",
+                "source": "sku"
+              },
+              {
+                "key": "Description",
+                "type": "leaf",
+                "source": "name"
+              },
+              {
+                "key": "OrderRef",
+                "type": "leaf",
+                "source": "header.orderNo",
+                "scope": "root"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

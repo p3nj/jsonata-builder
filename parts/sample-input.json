@@ -1,0 +1,82 @@
+{
+  "result": {
+    "count": 1,
+    "orders": [
+      {
+        "header": {
+          "orderNo": "SO-100241",
+          "channel": "web",
+          "customer": "Northwind Supplies",
+          "placedOn": "2026-08-18T09:15:00+10:00",
+          "status": "packing",
+          "priority": "2",
+          "reference": "PO-77812",
+          "total": "482.50",
+          "currency": "AUD"
+        },
+        "lines": [
+          {
+            "sku": "BOLT-M8",
+            "name": "M8 bolt, 40mm",
+            "qty": "120",
+            "unitPrice": "0.35",
+            "backorder": null
+          },
+          {
+            "sku": "WASH-M8",
+            "name": "M8 washer",
+            "qty": "240",
+            "unitPrice": "0.08",
+            "backorder": "no"
+          },
+          {
+            "sku": "NUT-M8",
+            "name": "M8 nut",
+            "qty": "120",
+            "unitPrice": "0.12",
+            "backorder": "yes"
+          }
+        ],
+        "shipments": [
+          {
+            "carrier": "Overland",
+            "tracking": "OV889201",
+            "parcels": [
+              {
+                "label": "P1",
+                "weight": "4.2"
+              },
+              {
+                "label": "P2",
+                "weight": "3.8"
+              }
+            ]
+          }
+        ],
+        "notes": [
+          {
+            "author": "sales",
+            "text": "Customer confirmed by phone",
+            "visibility": "public"
+          },
+          {
+            "author": "warehouse",
+            "text": "Two parcels, one oversize",
+            "visibility": "internal"
+          },
+          {
+            "author": "support",
+            "text": "Delivery window updated",
+            "visibility": "public"
+          }
+        ],
+        "billing": {
+          "contact": {
+            "name": "A. Chen",
+            "email": "orders@example.com"
+          }
+        }
+      }
+    ]
+  }
+}

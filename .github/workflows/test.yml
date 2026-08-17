@@ -1,0 +1,41 @@
+# The gate. Additive to pages.yml, which only builds and deploys.
+#
+# There is deliberately no package.json — this repository has no dependencies and the parts/
+# files are plain ES5 that node can require() as they are. jsonata is the one thing the tests
+# need, so it is installed here and nowhere else, exactly as build.mjs's header describes.
+#
+# The last step replays the COMMITTED suite rather than whatever a fresh sweep discovers today,
+# so the build fails on drift — a case that used to conclude one thing and now concludes
+# another — instead of failing on findings that were reviewed and accepted long ago.
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install jsonata
+        run: npm install --no-save --no-package-lock jsonata
+
+      - name: The generator behaves as documented
+        run: node parts/nodes.test.js
+
+      - name: The fault-injection engine behaves as documented
+        run: node parts/probe.test.js
+
+      - name: The example mapping still holds up
+        run: node parts/probe.replay.mjs --suite parts/suite-nested.json
+
+      - name: The page still builds
+        run: node build.mjs
+        env:
+          JSONATA_BUNDLE: node_modules/jsonata/jsonata.min.js

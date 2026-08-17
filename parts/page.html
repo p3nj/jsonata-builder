@@ -1,0 +1,148 @@
+<title>Dynamic JSONata Mapping Generator</title>
+
+<header class="masthead">
+  <div>
+    <h1>Dynamic JSONata Mapping Generator</h1>
+    <p>Build the mapping in the form — the JSONata is <b>written for you</b> as you type, and run against the example input on the left. The mapped result is below.</p>
+  </div>
+  <div class="spacer"></div>
+  <div class="pipeline">
+    <!-- Plain text, not pills: styled as a tab strip these read as clickable tabs with
+         "Generated JSONata" selected, and the labels named panes that do not exist. -->
+    <span class="stage">Example input</span>
+    <span class="arrow">→</span>
+    <span class="stage">Mapping</span>
+    <span class="arrow">→</span>
+    <span class="stage">Generated JSONata</span>
+    <span class="arrow">→</span>
+    <span class="stage">Result</span>
+  </div>
+  <button type="button" class="btn" id="btn-playground">Open in playground</button>
+  <select class="btn" id="example-picker" title="Load a worked example"></select>
+  <button type="button" class="btn" id="btn-import-config">Import mapping</button>
+  <button type="button" class="btn" id="btn-export-config">Export mapping</button>
+  <button type="button" class="btn" id="btn-clear">Clear</button>
+  <input type="file" id="import-file" accept="application/json,.json" hidden>
+</header>
+
+<main class="workbench">
+  <!-- ── Source response ────────────────────────────────────────────────────────── -->
+  <section class="pane" id="pane-input" aria-label="Example input">
+    <div class="pane__head">
+      <button type="button" class="disclosure" id="btn-input-collapse"
+              title="Hide the example input to give the form more room" aria-expanded="true">◀</button>
+      <span class="pane__title">Example input</span>
+      <div class="spacer" style="flex:1"></div>
+      <span class="card__meta">editable</span>
+    </div>
+    <div class="pane__body">
+      <textarea class="editor" id="input-editor" spellcheck="false" aria-label="Example input JSON"></textarea>
+    </div>
+    <div class="status">Paths from this JSON autocomplete every source field.</div>
+  </section>
+
+  <!-- ── Mapping configuration ──────────────────────────────────────────────────── -->
+  <section class="pane" aria-label="Mapping configuration">
+    <div class="pane__head">
+      <span class="pane__title">Mapping</span>
+      <div class="tabs" id="config-tabs" role="tablist">
+        <button type="button" class="tab" role="tab" aria-selected="true" data-panel="panel-form">Form</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-panel="panel-outline">Outline</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-panel="panel-properties">Flow properties</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-panel="panel-tests">Tests</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-panel="panel-history">History</button>
+      </div>
+      <div style="flex:1"></div>
+      <span class="card__meta" id="expr-size"></span>
+      <button type="button" class="btn btn--tiny" id="btn-collapse">Collapse all</button>
+    </div>
+
+    <div class="pane__body pane__body--pad" id="panel-form">
+      <div class="form" id="form-host"></div>
+    </div>
+
+    <div class="pane__body hidden" id="panel-outline">
+      <div class="outline__head">
+        <button type="button" class="btn btn--tiny" id="btn-outline-fold">Fold all</button>
+        <button type="button" class="btn btn--tiny" id="btn-outline-unfold">Unfold all</button>
+      </div>
+      <div class="outline" id="outline-host"></div>
+    </div>
+
+    <div class="pane__body hidden" id="panel-properties">
+      <!-- Nothing in the vocabulary names a flow property: the only route from the mapping to
+           one is a hand-written $$.properties.X. So the list below is discovered by scanning,
+           and the ticks only exist to correct what the scan could not see. -->
+      <div id="properties-required"></div>
+      <pre class="code" id="properties-json"></pre>
+    </div>
+
+    <!-- The run takes seconds and its findings are per-field, so it belongs beside the form
+         rather than in the Result pane, which folds to a 44px spine to give the form room. -->
+    <div class="pane__body hidden" id="panel-tests">
+      <div id="probe-host"></div>
+    </div>
+
+    <!-- The generated JSONata used to live here too, as a tab that HID the form. You could
+         see the form or the expression, never both. The Result pane's copy is the only one
+         now, and it stays visible while you edit. -->
+
+    <div class="pane__body hidden" id="panel-history">
+      <div id="history-host"></div>
+    </div>
+
+    <div class="status">
+      <span>Every edit regenerates the JSONata and re-runs it against the example input. Load an existing expression to bring it back into the form.</span>
+      <div style="flex:1"></div>
+      <button type="button" class="btn btn--tiny" data-copy="expr">Copy generated JSONata</button>
+    </div>
+  </section>
+
+  <!-- ── Result ─────────────────────────────────────────────────────────────────── -->
+  <section class="pane pane--output" id="pane-output" aria-label="Mapped result">
+    <div class="pane__head">
+      <button type="button" class="disclosure" id="btn-output-collapse"
+              title="Hide the result to give the form more room" aria-expanded="true">▼</button>
+      <span class="pane__title">Result</span>
+      <div class="tabs" id="output-tabs" role="tablist">
+        <button type="button" class="tab" role="tab" aria-selected="true" data-panel="panel-output">Target payload</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-panel="panel-source">Generated JSONata</button>
+      </div>
+      <span class="card__meta" id="output-collapsed-summary"></span>
+      <div style="flex:1"></div>
+      <button type="button" class="btn btn--tiny" data-copy="output">Copy payload</button>
+    </div>
+
+    <!-- Pinned at the top of the pane, never clipped and never below the fold. The old
+         status line at the very bottom edge was the only error surface. -->
+    <div class="banner hidden" id="output-banner" role="alert"></div>
+
+    <div class="pane__body" id="panel-output">
+      <div class="split">
+        <pre class="code" id="output-json"></pre>
+        <div>
+          <div class="stats" id="output-stats"></div>
+          <div class="notes" id="output-notes"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pane__body hidden" id="panel-source">
+      <pre class="code" id="expr-view-2"></pre>
+    </div>
+
+    <div class="status" id="output-status"></div>
+  </section>
+</main>
+
+<!-- Shown only when both clipboard routes are blocked: the text, selected and ready for ⌘C. -->
+<div class="manual hidden" id="manual-copy" role="dialog" aria-label="Copy manually">
+  <div class="manual__head">
+    <span>Your browser blocked the clipboard. The text below is selected — press <kbd>⌘C</kbd> / <kbd>Ctrl+C</kbd>.</span>
+    <button type="button" class="btn btn--tiny" id="manual-copy-close">Close</button>
+  </div>
+  <textarea class="manual__text" id="manual-copy-text" spellcheck="false" readonly></textarea>
+</div>
+
+<datalist id="paths-all"></datalist>
+<datalist id="paths-array"></datalist>

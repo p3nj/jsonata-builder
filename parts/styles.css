@@ -1,0 +1,923 @@
+/* ── Tokens ────────────────────────────────────────────────────────────────────────────
+   Light is the base set. Dark redefines tokens only, in both the un-stamped
+   (prefers-color-scheme) state and the explicitly stamped one. No component rule ever
+   declares a colour outside these blocks. */
+:root {
+  --ground: #f4f5f8;
+  --surface: #ffffff;
+  --surface-sunken: #eef0f5;
+  --surface-raised: #f9fafc;
+  --line: #dcdfe8;
+  --line-strong: #c3c8d6;
+  --ink: #171a22;
+  --ink-soft: #4d5464;
+  --ink-faint: #767e91;
+  --accent: #5b4bc4;
+  --accent-soft: #ece9fb;
+  --accent-ink: #ffffff;
+  --grp: #5b4bc4;
+  --grp-soft: #ece9fb;
+  --sec: #0e7684;
+  --sec-soft: #e0f2f4;
+  --fld: #8a5a06;
+  --fld-soft: #f7eddb;
+  --obz: #3a4a63;
+  --obz-soft: #e7ebf2;
+  --ok: #1a7a4c;
+  --ok-soft: #e2f2e9;
+  --warn: #9a5c00;
+  --warn-soft: #faeedb;
+  --bad: #b3261e;
+  --bad-soft: #fbe6e4;
+  --code-key: #5b4bc4;
+  --code-str: #1a6a4e;
+  --code-num: #9a4a10;
+  --code-lit: #7a2f8f;
+  --code-punc: #767e91;
+  --shadow: 0 1px 2px rgba(23, 26, 34, .06), 0 6px 18px rgba(23, 26, 34, .05);
+  --focus: 0 0 0 3px color-mix(in srgb, var(--accent) 32%, transparent);
+
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --r: 7px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0e1016;
+    --surface: #161923;
+    --surface-sunken: #11141c;
+    --surface-raised: #1c2130;
+    --line: #272d3c;
+    --line-strong: #394155;
+    --ink: #e7eaf2;
+    --ink-soft: #a5adc0;
+    --ink-faint: #7a8399;
+    --accent: #a396ff;
+    --accent-soft: #262450;
+    --accent-ink: #14121f;
+    --grp: #a396ff;
+    --grp-soft: #262450;
+    --sec: #4fc6d6;
+    --sec-soft: #10333a;
+    --fld: #e0a94a;
+    --fld-soft: #3a2d13;
+    --obz: #9fb0cc;
+    --obz-soft: #1e2534;
+    --ok: #57c98b;
+    --ok-soft: #123021;
+    --warn: #e0a94a;
+    --warn-soft: #3a2d13;
+    --bad: #ff8a80;
+    --bad-soft: #3a1a19;
+    --code-key: #a396ff;
+    --code-str: #6fd39d;
+    --code-num: #f0a86a;
+    --code-lit: #dd9de8;
+    --code-punc: #7a8399;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .3);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #0e1016;
+  --surface: #161923;
+  --surface-sunken: #11141c;
+  --surface-raised: #1c2130;
+  --line: #272d3c;
+  --line-strong: #394155;
+  --ink: #e7eaf2;
+  --ink-soft: #a5adc0;
+  --ink-faint: #7a8399;
+  --accent: #a396ff;
+  --accent-soft: #262450;
+  --accent-ink: #14121f;
+  --grp: #a396ff;
+  --grp-soft: #262450;
+  --sec: #4fc6d6;
+  --sec-soft: #10333a;
+  --fld: #e0a94a;
+  --fld-soft: #3a2d13;
+  --obz: #9fb0cc;
+  --obz-soft: #1e2534;
+  --ok: #57c98b;
+  --ok-soft: #123021;
+  --warn: #e0a94a;
+  --warn-soft: #3a2d13;
+  --bad: #ff8a80;
+  --bad-soft: #3a1a19;
+  --code-key: #a396ff;
+  --code-str: #6fd39d;
+  --code-num: #f0a86a;
+  --code-lit: #dd9de8;
+  --code-punc: #7a8399;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .3);
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+:focus-visible { outline: none; box-shadow: var(--focus); border-radius: 4px; }
+
+/* ── Masthead ─────────────────────────────────────────────────────────────────────── */
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+  padding: 14px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.masthead h1 {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+.masthead p { margin: 2px 0 0; color: var(--ink-soft); font-size: 12.5px; max-width: 62ch; }
+
+.masthead .spacer { flex: 1 1 auto; }
+
+/* Pipeline strip — the four stages the page is built around. */
+.pipeline { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+.stage {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.stage b { font-weight: 600; color: var(--ink); }
+/* Deliberately NOT pill-shaped or accent-filled any more: styled that way it was pixel
+   identical to an active tab, so the strip read as a tab bar with one tab selected. */
+.arrow { color: var(--ink-faint); font-family: var(--mono); font-size: 12px; }
+
+/* ── Workbench ────────────────────────────────────────────────────────────────────── */
+.workbench {
+  display: grid;
+  grid-template-columns: minmax(300px, 34fr) minmax(360px, 66fr);
+  /* The editing surface is the product. At the old 1fr/.82fr split the form pane was 263px
+     tall against 2593px of content — one field row visible out of twenty-five. */
+  grid-template-rows: minmax(440px, 2.3fr) minmax(180px, .55fr);
+  gap: 12px;
+  padding: 12px;
+  height: calc(100vh - 66px);
+  min-height: 720px;
+}
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.pane--output { grid-column: 1 / -1; }
+
+.pane__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-raised);
+  min-height: 42px;
+}
+
+.pane__title {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.pane__body { flex: 1 1 auto; min-height: 0; overflow: auto; }
+.pane__body--pad { padding: 12px; }
+
+.tabs { display: flex; gap: 2px; flex-wrap: wrap; }
+
+.tab {
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tab:hover { color: var(--ink); background: var(--surface-sunken); }
+.tab[aria-selected="true"] { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, transparent); color: var(--accent); font-weight: 600; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btn:hover { color: var(--ink); border-color: var(--accent); }
+.btn--ghost { border-color: transparent; background: transparent; }
+.btn--tiny { padding: 2px 7px; font-size: 11px; }
+
+.editor {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  padding: 12px;
+  border: 0;
+  resize: none;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.55;
+  tab-size: 2;
+}
+
+.editor:focus { outline: none; box-shadow: none; }
+
+.code {
+  margin: 0;
+  padding: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.code .k { color: var(--code-key); }
+.code .s { color: var(--code-str); }
+.code .n { color: var(--code-num); }
+.code .l { color: var(--code-lit); }
+.code .p { color: var(--code-punc); }
+.code .c { color: var(--ink-faint); font-style: italic; }
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-raised);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  flex-wrap: wrap;
+}
+
+.status.is-bad { background: var(--bad-soft); color: var(--bad); }
+.status b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.status.is-bad b { color: var(--bad); }
+
+/* ── Form ─────────────────────────────────────────────────────────────────────────── */
+.form { display: flex; flex-direction: column; gap: 12px; }
+
+.formgroup {
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface-sunken);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formgroup__label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.formgroup__toggle {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.formgroup__toggle:hover { color: var(--ink); }
+
+.hstack { display: flex; gap: 8px; flex-wrap: wrap; }
+.hstack > * { flex: 1 1 200px; min-width: 0; }
+.vstack { display: flex; flex-direction: column; gap: 8px; }
+
+.field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+
+.field > label {
+  font-size: 11px;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.field .hint { color: var(--ink-faint); font-size: 10.5px; }
+
+.control {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.control::placeholder { color: var(--ink-faint); }
+.control:hover { border-color: var(--accent); }
+select.control { font-family: var(--sans); }
+
+.check { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-soft); }
+.check input { accent-color: var(--accent); }
+
+/* Tiered cards: colour encodes which layer of the tree you are editing. */
+.card {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--tier, var(--line-strong));
+  border-radius: var(--r);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.card + .card { margin-top: 8px; }
+.card--grp { --tier: var(--grp); }
+.card--sec { --tier: var(--sec); background: var(--surface-raised); }
+
+.card__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: var(--surface-raised);
+  border-bottom: 1px solid var(--line);
+}
+
+.card--sec > .card__head { background: transparent; }
+.card__body { padding: 10px; display: flex; flex-direction: column; gap: 10px; }
+
+.badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--badge-bg, var(--surface-sunken));
+  color: var(--badge-fg, var(--ink-soft));
+  white-space: nowrap;
+}
+
+.badge--grp { --badge-bg: var(--grp-soft); --badge-fg: var(--grp); }
+.badge--sec { --badge-bg: var(--sec-soft); --badge-fg: var(--sec); }
+.badge--fld { --badge-bg: var(--fld-soft); --badge-fg: var(--fld); }
+.badge--obz { --badge-bg: var(--obz-soft); --badge-fg: var(--obz); }
+
+.card__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card__meta { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); white-space: nowrap; }
+
+.disclosure {
+  border: 0;
+  background: transparent;
+  color: var(--ink-faint);
+  cursor: pointer;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-family: var(--mono);
+}
+
+.disclosure:hover { color: var(--ink); }
+
+/* Field rows — the key/value layer. Identifier left, source right, rest behind "more". */
+.rows { display: flex; flex-direction: column; gap: 4px; }
+
+.row {
+  display: grid;
+  /* key ← source · readout · risk · more · remove. The risk badge added the seventh column;
+     with six, the remove button wrapped onto a line of its own. */
+  grid-template-columns: minmax(120px, 1fr) 14px minmax(140px, 1.25fr) auto auto auto auto;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: var(--surface-sunken);
+}
+
+.row:hover { border-color: var(--line); }
+.row__link { color: var(--ink-faint); font-family: var(--mono); font-size: 11px; text-align: center; }
+
+.row__tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  min-width: 34px;
+  text-align: right;
+  white-space: nowrap;
+}
+.row--fld .control:first-child { color: var(--fld); }
+.row__extra {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  padding: 8px 2px 4px;
+  border-top: 1px dashed var(--line);
+}
+
+.rowlist { display: flex; flex-direction: column; gap: 4px; }
+.rowlist__item { display: flex; gap: 6px; align-items: center; }
+
+.empty {
+  padding: 8px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 5px;
+  color: var(--ink-faint);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* ── Diagnostics ──────────────────────────────────────────────────────────────────── */
+.stats { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 12px 0; }
+
+.stat {
+  flex: 1 1 92px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface-raised);
+}
+
+.stat b { display: block; font-family: var(--mono); font-size: 18px; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); }
+
+.notes { display: flex; flex-direction: column; gap: 6px; padding: 12px; }
+
+.note {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--note, var(--line-strong));
+  border-radius: 5px;
+  background: var(--note-bg, var(--surface-raised));
+  font-size: 12px;
+}
+
+.note--ok { --note: var(--ok); --note-bg: var(--ok-soft); }
+.note--warn { --note: var(--warn); --note-bg: var(--warn-soft); }
+.note--bad { --note: var(--bad); --note-bg: var(--bad-soft); }
+.note code { font-family: var(--mono); font-size: 11.5px; }
+.note__tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.split { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(260px, 1fr); height: 100%; min-height: 0; }
+.split > * { min-width: 0; min-height: 0; overflow: auto; }
+.split > * + * { border-left: 1px solid var(--line); }
+
+.hidden { display: none !important; }
+
+@media (max-width: 1080px) {
+  .workbench {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(3, minmax(340px, auto));
+    height: auto;
+  }
+  .pane--output { grid-column: auto; }
+  .split { grid-template-columns: minmax(0, 1fr); }
+  .split > * + * { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ── Raw JSONata escape hatches ───────────────────────────────────────────────────── */
+.control--expr {
+  min-height: 62px;
+  resize: vertical;
+  line-height: 1.5;
+  tab-size: 2;
+  white-space: pre;
+  overflow-x: auto;
+  border-left: 3px solid var(--accent);
+}
+
+.field--wide { grid-column: 1 / -1; flex-basis: 100%; }
+.row__tag--expr { color: var(--accent); font-weight: 600; }
+
+/* ── Per-panel copy buttons ───────────────────────────────────────────────────────── */
+.copybar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 10px 4px;
+  background: linear-gradient(var(--surface) 70%, transparent);
+}
+
+.btn.is-copied { border-color: var(--ok); color: var(--ok); }
+
+/* ── Manual copy fallback ─────────────────────────────────────────────────────────── */
+.manual {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 50;
+  width: min(560px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+}
+
+.manual__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.manual__head span { flex: 1 1 auto; }
+
+.manual kbd {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 1px 5px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--surface-sunken);
+  color: var(--ink);
+}
+
+.manual__text {
+  width: 100%;
+  height: 140px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface-sunken);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  resize: vertical;
+  white-space: pre;
+}
+
+/* ── Modal ────────────────────────────────────────────────────────────────────────── */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: color-mix(in srgb, var(--ink) 45%, transparent);
+}
+
+.modal__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(860px, 100%);
+  max-height: 100%;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+}
+
+.modal__head { display: flex; align-items: center; gap: 10px; }
+.modal__hint { margin: 0; font-size: 12px; color: var(--ink-soft); max-width: 78ch; }
+
+.modal__text {
+  flex: 1 1 auto;
+  min-height: 260px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface-sunken);
+}
+
+.modal__foot { display: flex; align-items: center; gap: 10px; }
+
+.modal__error {
+  padding: 9px 11px;
+  border: 1px solid var(--bad);
+  border-left-width: 3px;
+  border-radius: 5px;
+  background: var(--bad-soft);
+  color: var(--bad);
+  font-size: 12px;
+  max-height: 180px;
+  overflow: auto;
+}
+
+.modal__error b { display: block; margin-bottom: 3px; }
+.modal__error code { font-family: var(--mono); font-size: 11.5px; }
+
+/* ── Error banner ─────────────────────────────────────────────────────────────────────
+   The old error surface was an 11px status line at the very bottom edge of the output
+   pane, clipped by overflow:hidden and genuinely below the fold at 1440x900. */
+.banner {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12.5px;
+  line-height: 1.45;
+  font-weight: 500;
+}
+.banner--bad {
+  background: var(--bad-soft, #fbe6e4);
+  color: var(--bad, #b3261e);
+  border-bottom-color: color-mix(in srgb, var(--bad, #b3261e) 30%, transparent);
+}
+
+/* A failed run keeps the last good payload on screen rather than blanking it, so the
+   result is dimmed to say "this is not current" instead of vanishing. */
+.code.is-stale { opacity: .45; filter: saturate(.4); }
+
+/* ── Inline resolved value ────────────────────────────────────────────────────────────
+   What the row actually read out of the example input. The app already computed this and
+   threw it away, leaving every wrong path looking identical to a right one. */
+.row__value {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 22ch;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ok, #1b7f4d);
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--ok, #1b7f4d) 9%, transparent);
+}
+.row__value:empty { display: none; }
+.row__value--empty {
+  color: var(--ink-faint);
+  background: transparent;
+  font-style: italic;
+}
+
+/* ── Scrollbars ───────────────────────────────────────────────────────────────────────
+   macOS overlay scrollbars meant offsetWidth - clientWidth === 0: at rest there was no
+   scrollbar at all, and content was sliced off with no cue that more existed below. */
+.pane__body { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.pane__body::-webkit-scrollbar { width: 10px; height: 10px; }
+.pane__body::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--ink-faint) 45%, transparent);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.pane__body::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); background-clip: content-box; }
+
+/* ── Collapsible example input ────────────────────────────────────────────────────────
+   The form is the thing being worked on, so the input pane folds down to a labelled
+   spine and hands its width over. */
+.workbench.input-collapsed { grid-template-columns: 40px minmax(360px, 1fr); }
+.workbench.input-collapsed #pane-input .pane__body,
+.workbench.input-collapsed #pane-input .status { display: none; }
+.workbench.input-collapsed #pane-input .pane__head {
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  padding: 8px 4px;
+  border-bottom: 0;
+}
+.workbench.input-collapsed #pane-input .pane__title {
+  writing-mode: vertical-rl;
+  letter-spacing: .12em;
+}
+.workbench.input-collapsed #pane-input .card__meta { display: none; }
+#btn-input-collapse { flex: 0 0 auto; }
+
+/* ── Collapsible result ───────────────────────────────────────────────────────────────
+   The tree is deeper than the old flat form, so the vertical squeeze moved here. Folding
+   the result to its header hands the whole column height to the form. */
+.workbench.output-collapsed { grid-template-rows: 1fr 44px; }
+.workbench.output-collapsed #pane-output .pane__body,
+.workbench.output-collapsed #pane-output .status,
+.workbench.output-collapsed #pane-output .banner { display: none; }
+
+/* A problem count stays visible on the folded header, so nothing is hidden silently. */
+#output-collapsed-summary { display: none; }
+.workbench.output-collapsed #output-collapsed-summary { display: inline; }
+
+/* ── Layer colour ─────────────────────────────────────────────────────────────────────
+   Every nested card drew the same purple spine, so at four levels deep you could not tell
+   which line belonged to which parent. Six hues, cycling by depth. */
+:root {
+  --layer-0: #5b4bc4;  --layer-1: #0e7684;  --layer-2: #8a5a06;
+  --layer-3: #a3357d;  --layer-4: #2f7d32;  --layer-5: #3a4a63;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --layer-0: #a396ff;  --layer-1: #4fc6d6;  --layer-2: #e0a94a;
+    --layer-3: #f08fd0;  --layer-4: #7fd48a;  --layer-5: #9fb0cc;
+  }
+}
+:root[data-theme="dark"] {
+  --layer-0: #a396ff;  --layer-1: #4fc6d6;  --layer-2: #e0a94a;
+  --layer-3: #f08fd0;  --layer-4: #7fd48a;  --layer-5: #9fb0cc;
+}
+
+.card[data-depth="0"] { --layer: var(--layer-0); }
+.card[data-depth="1"] { --layer: var(--layer-1); }
+.card[data-depth="2"] { --layer: var(--layer-2); }
+.card[data-depth="3"] { --layer: var(--layer-3); }
+.card[data-depth="4"] { --layer: var(--layer-4); }
+.card[data-depth="5"] { --layer: var(--layer-5); }
+
+.card[data-depth] { border-left: 3px solid var(--layer); }
+.card[data-depth] > .card__head .badge {
+  background: color-mix(in srgb, var(--layer) 15%, transparent);
+  color: var(--layer);
+  border-color: color-mix(in srgb, var(--layer) 40%, transparent);
+}
+.card[data-depth] > .card__body { border-left: 1px solid color-mix(in srgb, var(--layer) 30%, transparent); }
+
+/* Jumped-to node, so the eye lands in the right place. */
+.is-flash { box-shadow: 0 0 0 3px color-mix(in srgb, var(--layer, var(--accent)) 55%, transparent); }
+
+/* ── Outline ───────────────────────────────────────────────────────────────────────── */
+.outline { padding: 8px 4px; font-family: var(--mono); font-size: 11.5px; }
+.outline__row {
+  display: flex; align-items: center; gap: 7px;
+  padding: 3px 8px; border-radius: 5px; cursor: pointer; white-space: nowrap;
+}
+.outline__row:hover { background: var(--surface-sunken); }
+.outline__row[data-depth="0"] { --layer: var(--layer-0); }
+.outline__row[data-depth="1"] { --layer: var(--layer-1); }
+.outline__row[data-depth="2"] { --layer: var(--layer-2); }
+.outline__row[data-depth="3"] { --layer: var(--layer-3); }
+.outline__row[data-depth="4"] { --layer: var(--layer-4); }
+.outline__row[data-depth="5"] { --layer: var(--layer-5); }
+.outline__badge {
+  flex: 0 0 auto; min-width: 30px; text-align: center;
+  padding: 1px 5px; border-radius: 4px; font-size: 9.5px; letter-spacing: .04em;
+  background: color-mix(in srgb, var(--layer) 15%, transparent); color: var(--layer);
+}
+.outline__name { color: var(--ink); }
+.outline__meta { color: var(--ink-faint); font-size: 10.5px; }
+.outline__flag { margin-left: auto; color: var(--bad); font-weight: 700; }
+
+/* A disabled action says why it is unavailable rather than silently doing nothing. */
+.btn[disabled] { opacity: .42; cursor: not-allowed; }
+.btn[disabled]:hover { color: var(--ink-soft); border-color: var(--line-strong); }
+
+/* The element of an array, shown as its own thing rather than implied by convention. */
+.itemwrap { margin-top: 8px; padding: 8px; border: 1px dashed color-mix(in srgb, var(--layer, var(--line)) 45%, transparent); border-radius: var(--r); }
+.itemwrap__label { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); align-self: center; }
+
+.card__name--fixed { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); font-style: italic; }
+
+.outline__fold {
+  flex: 0 0 auto; width: 12px; text-align: center;
+  color: var(--ink-faint); font-size: 9px; cursor: pointer; user-select: none;
+}
+.outline__fold:hover { color: var(--layer, var(--accent)); }
+.outline__head { display: flex; gap: 6px; padding: 6px 8px 2px; }
+
+/* ══ Fault-injection results ═══════════════════════════════════════════════════════════
+   Two surfaces, and the form is the important one. A report in a separate tab that has to be
+   cross-referenced by hand against a 214-node form gets read once; a mark on the card you are
+   already editing is the thing that changes what gets built.
+
+   .node--error, .node--warn and .node__problems have been written by the form since
+   validate() landed and have never had a single rule to their name — the hook existed and did
+   nothing. Findings from a test run arrive in the same shape validate() returns, so styling
+   them here lights up both at once. */
+
+.node--error, .node--warn { border-left: 3px solid var(--edge); padding-left: 7px; }
+.node--error { --edge: var(--bad); background: color-mix(in srgb, var(--bad-soft) 40%, transparent); }
+.node--warn  { --edge: var(--warn); background: color-mix(in srgb, var(--warn-soft) 40%, transparent); }
+.node__problems { display: flex; flex-direction: column; gap: 3px; margin: 4px 0 2px; }
+.node__problems .note { font-size: 11px; }
+/* .row is a grid, so an appended block becomes another CELL and shoulders the remove button
+   sideways. The explanation belongs under the whole row, not in a column of it. */
+.row .node__problems { grid-column: 1 / -1; }
+
+/* A card wears its worst descendant's colour. Cards below the root default to COLLAPSED, so
+   without this a fault simply hides inside a folded branch and the run looks clean. */
+.card--has-error { box-shadow: inset 3px 0 0 var(--bad); }
+.card--has-warn  { box-shadow: inset 3px 0 0 var(--warn); }
+
+/* The badge. :empty keeps a form with no findings pixel-identical to one that was never
+   tested — the same trick .row__value uses — so the feature costs nothing until it has
+   something to say. */
+.row__risk, .card__risk {
+  font-family: var(--mono); font-size: 10.5px; white-space: nowrap; cursor: pointer;
+  padding: 1px 6px; border-radius: 999px; align-self: center;
+  background: var(--warn-soft); color: var(--warn);
+}
+.row__risk:empty, .card__risk:empty { display: none; }
+.row__risk.is-bad, .card__risk.is-bad { background: var(--bad-soft); color: var(--bad); }
+.row__risk:hover, .card__risk:hover { outline: 1px solid currentColor; }
+
+/* Stale results are dimmed, never cleared: "this broke last time you checked" is still true,
+   and blanking the marks on every keystroke would make them useless. */
+.row__risk.is-stale, .card__risk.is-stale, .outline__risk.is-stale { opacity: .45; }
+.card.is-stale { box-shadow: none; }
+
+.outline__risk { margin-left: 6px; color: var(--warn); font-size: 9px; }
+.outline__risk.is-bad { color: var(--bad); }
+
+/* ── the Tests panel ── */
+.probe__head { display: flex; gap: 6px; padding: 6px 8px; align-items: center; flex-wrap: wrap; }
+.probe__progress { display: flex; gap: 8px; align-items: center; padding: 0 8px 6px; }
+.probe__bar { flex: 1; height: 4px; border-radius: 999px; background: var(--surface-sunken); overflow: hidden; }
+.probe__bar-fill { height: 100%; background: var(--accent); transition: width .12s linear; }
+.probe__chips { display: flex; gap: 6px; padding: 0 8px 6px; flex-wrap: wrap; }
+.probe__chips .btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.probe__rows { padding: 0 8px 8px; display: flex; flex-direction: column; gap: 8px; }
+
+.probe__group { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.probe__group-head {
+  display: flex; gap: 8px; align-items: center; padding: 6px 8px;
+  background: var(--surface-sunken); cursor: pointer;
+}
+.probe__row {
+  display: flex; gap: 8px; align-items: baseline; padding: 4px 8px;
+  border-top: 1px solid var(--line); cursor: pointer; font-size: 11.5px;
+}
+.probe__row:hover { background: var(--surface-sunken); }
+.probe__code {
+  font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--ink-faint); flex: 0 0 auto; max-width: 40%;
+}
+.probe__label { color: var(--ink); }
+.probe__detail { padding: 6px 8px 8px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+.probe__where { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* The flow properties a mapping needs — discovered by scanning, because nothing declares them. */
+.proprow { display: flex; gap: 8px; align-items: center; padding: 3px 0; flex-wrap: wrap; }
+.proprow__name { font-family: var(--mono); font-size: 11.5px; color: var(--ink); }
