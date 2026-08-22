@@ -94,12 +94,12 @@
   }
 
   /**
-   * The renderer defaults an unrecorded node to collapsed at any depth below the root, so
-   * "absent from the map" means CLOSED, not open. Reading it as open made the first click
-   * collapse things that were already collapsed — the button appeared to do nothing.
+   * The renderer defaults an unrecorded node to OPEN — the merged tree is the only map of
+   * the structure now, and a map that starts folded shows nothing. This must read the map
+   * the same way, or the first click of the collapse button appears to do nothing.
    */
   function isNodeOpen(entry) {
-    return entry.id in state.collapsed ? !state.collapsed[entry.id] : !(entry.depth > 0);
+    return entry.id in state.collapsed ? !state.collapsed[entry.id] : true;
   }
 
   /** The button says what clicking it will do, not what just happened. */
@@ -731,7 +731,6 @@
   function render() {
     if (!tree) return;
     tree.paint();
-    tree.paintOutline($("outline-host"));
     refreshCollapseLabel();
     /* The required-property list is derived from the mapping by scanning it, so it goes stale
        the moment the mapping changes — importing one that reads a property it never had, most
@@ -985,13 +984,6 @@
       render();
       run();
       if (versions) versions.save("Loaded example: " + chosen.name);
-    });
-
-    $("btn-outline-fold").addEventListener("click", function () {
-      if (tree) tree.setOutlineFolded(true, $("outline-host"));
-    });
-    $("btn-outline-unfold").addEventListener("click", function () {
-      if (tree) tree.setOutlineFolded(false, $("outline-host"));
     });
 
     $("btn-import-config").addEventListener("click", function () { $("import-file").click(); });

@@ -20,8 +20,9 @@ Mapping form  ──generate()──►  JSONata expression  ──►  your int
 
 - **left** — the source response, editable. Every path in it feeds the autocomplete on each
   source field.
-- **middle** — the mapping form, with tabs for the outline, the flow properties, the tests,
-  and the version history.
+- **middle** — the mapping builder: one tree where every row edits its name and source in
+  place, expands to the advanced options, and drags to a new position or parent. Tabs for
+  the flow properties, the tests, and the version history.
 - **right** — the payload the expression produces, plus the generated JSONata itself.
 
 Every panel has a copy button.
@@ -91,9 +92,9 @@ first is what anyone expects:
 | the **whole payload** is lost | one bad value discards every other correctly-mapped field |
 | a **different** field quietly changes | no error, wrong data, and nothing else can show it |
 
-Anything broken is marked **on the form itself** — the row tinted and explained in place, the
-count carried up through collapsed cards so a fault cannot hide in a folded branch, and the
-branch flagged in the outline. The **Tests** tab holds the full report, worst first, with a
+Anything broken is marked **on the tree itself** — the row tinted and explained in place, and
+the count carried up onto container rows so a fault cannot hide in a folded branch. The
+**Tests** tab holds the full report, worst first, with a
 click through to the offending field and a hand-off to the playground seeded with the exact
 input that broke it.
 
@@ -132,7 +133,7 @@ current expression and input, so experiments never disturb the builder.
 | `build.mjs` | assembles `parts/` into the page, inlining jsonata |
 | `parts/nodes.js` | **the generator** — config in, JSONata out, plus validation; portable ES5 |
 | `parts/probe.js` | the fault-injection engine — what to injure, and what the result means |
-| `parts/tree-ui.js` | the form: one recursive renderer for every level of the tree |
+| `parts/tree-ui.js` | the builder: one recursive row renderer, editing and drag-and-drop in place |
 | `parts/probe-ui.js` | the Tests panel, and the risk index the form's badges read |
 | `parts/history.js` | version snapshots in localStorage |
 | `parts/playground.js` | the child-tab playground |

@@ -46,8 +46,7 @@
     <div class="pane__head">
       <span class="pane__title">Mapping</span>
       <div class="tabs" id="config-tabs" role="tablist">
-        <button type="button" class="tab" role="tab" aria-selected="true" data-panel="panel-form">Form</button>
-        <button type="button" class="tab" role="tab" aria-selected="false" data-panel="panel-outline">Outline</button>
+        <button type="button" class="tab" role="tab" aria-selected="true" data-panel="panel-form">Builder</button>
         <button type="button" class="tab" role="tab" aria-selected="false" data-panel="panel-properties">Flow properties</button>
         <button type="button" class="tab" role="tab" aria-selected="false" data-panel="panel-tests">Tests</button>
         <button type="button" class="tab" role="tab" aria-selected="false" data-panel="panel-history">History</button>
@@ -57,16 +56,11 @@
       <button type="button" class="btn btn--tiny" id="btn-collapse">Collapse all</button>
     </div>
 
+    <!-- The Form and Outline used to be separate tabs: the outline was the map and clicking
+         it bounced you back to the form to edit. The builder is both at once — every row
+         edits in place, and the drag grip moves it. -->
     <div class="pane__body pane__body--pad" id="panel-form">
       <div class="form" id="form-host"></div>
-    </div>
-
-    <div class="pane__body hidden" id="panel-outline">
-      <div class="outline__head">
-        <button type="button" class="btn btn--tiny" id="btn-outline-fold">Fold all</button>
-        <button type="button" class="btn btn--tiny" id="btn-outline-unfold">Unfold all</button>
-      </div>
-      <div class="outline" id="outline-host"></div>
     </div>
 
     <div class="pane__body hidden" id="panel-properties">

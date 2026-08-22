@@ -431,11 +431,12 @@ test("validate: the shipped examples carry no errors", function () {
 });
 
 /* ══ readings ══════════════════════════════════════════════════════════════════════════
-   readings() keys the per-node readout the form shows, and its nodePath rule is duplicated in
-   paintOutline and in validate. If the three ever disagree, values land on the wrong card and
-   it looks like a data bug rather than a path bug. This is the join key the probe rests on. */
+   readings() keys the per-node readout the tree shows, and its nodePath rule is duplicated in
+   the renderer's walk and in validate. If the three ever disagree, values land on the wrong
+   row and it looks like a data bug rather than a path bug. This is the join key the probe
+   rests on. */
 
-/** paintOutline's walk (tree-ui.js:521-523), reproduced exactly. */
+/** The renderer's path rule (tree-ui.js renderNode/kidsFor), reproduced exactly. */
 function outlinePaths(config) {
   var paths = [];
   (function walk(node, nodePath) {
